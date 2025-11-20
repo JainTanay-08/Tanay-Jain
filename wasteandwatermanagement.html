@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste & Water - Sustainable Cities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#059669',
+                        'secondary-blue': '#3b82f6',
+                        'dark-bg': '#111827',
+                        'light-text': '#f9fafb',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* FALLING LEAVES EFFECT CSS (Same as index.html) */
+        .leaf-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -20; background-color: #1f2937;
+        }
+        @keyframes fall {
+            0% { top: -10%; opacity: 0.8; transform: translateX(0) rotate(0deg); }
+            100% { top: 110%; opacity: 0.2; transform: translateX(50px) rotate(270deg); }
+        }
+        @keyframes sway { 0% { transform: translateX(0); } 50% { transform: translateX(30px); } 100% { transform: translateX(0); } }
+        .leaf {
+            position: absolute; width: 25px; height: 25px; background-color: rgba(5, 150, 105, 0.7); border-radius: 0 50% 50% 50%; box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); opacity: 0;
+            animation: fall linear infinite, sway linear infinite; animation-delay: calc(var(--delay) * 1s); animation-duration: calc(var(--duration) * 1s); transform-origin: 50% 50%;
+        }
+        .content-overlay {
+            position: fixed; top: 0; left: 0; height: 100%; width: 100%; background: rgba(17, 24, 39, 0.3); z-index: -10;
+        }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #1f2937; } ::-webkit-scrollbar-thumb { background: #059669; border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: #047857; }
+    </style>
+</head>
+
+<body class="font-sans text-light-text antialiased min-h-screen">
+    <div class="leaf-container" id="leaf-container"></div>
+    <div class="content-overlay"></div>
+
+    <div class="relative z-10">
+        <!-- Navigation Bar -->
+        <header class="sticky top-0 bg-dark-bg/95 backdrop-blur-sm shadow-2xl z-50">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="text-2xl font-extrabold text-light-text tracking-tight">EcoCity Hub</span>
+                </a>
+                <div class="hidden md:flex space-x-6 text-lg">
+                    <a href="index.html" class="text-light-text hover:text-primary-green transition duration-300">Home</a>
+                    <a href="city_planning.html" class="text-light-text hover:text-primary-green transition duration-300">City Planning</a>
+                    <a href="green_energy.html" class="text-light-text hover:text-primary-green transition duration-300">Green Energy</a>
+                    <a href="mobility.html" class="text-light-text hover:text-primary-green transition duration-300">Mobility</a>
+                    <a href="waste_water.html" class="text-light-text hover:text-primary-green transition duration-300 font-bold border-b-4 border-primary-green pb-1">Waste & Water</a>
+                    <a href="contact.html" class="text-light-text hover:text-primary-green transition duration-300">Contact</a>
+                </div>
+                <button class="md:hidden p-2 rounded-lg hover:bg-primary-green/20 transition duration-200">
+                    <svg class="w-6 h-6 text-light-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Page Content -->
+        <main class="min-h-[calc(100vh-100px)] py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto bg-white/95 text-dark-bg p-8 md:p-12 rounded-2xl shadow-3xl">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-primary-green mb-6 border-b-4 border-secondary-blue/50 pb-2">Closing the Loop: Circular Economy & Water Resilience</h1>
+                <p class="text-xl text-gray-700 mb-10">Moving away from a "take-make-dispose" mentality requires innovative systems for waste minimization and water cycle management.</p>
+
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <!-- Section 1: Circular Waste Management -->
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4 flex items-center text-secondary-blue">
+                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11.334 11.455A8.001 8.001 0 0118.995 5.5m0 0H15m1.5 6.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg>
+                            From Waste to Resource
+                        </h2>
+                        <p class="mb-4 text-gray-600">The goal is to eliminate waste by design. Smart bins report fill levels to optimize collection routes, and specialized facilities convert organic waste into biofuel and compost.</p>
+                        <img src="c:\Users\lab103\Documents\Downloads\10669.jpg" alt="Circular economy flowchart" class="w-full rounded-xl shadow-lg mb-6 border-4 border-secondary-blue/30">
+                        <ul class="list-disc ml-6 text-gray-600 space-y-2">
+                            <li>Prioritizing repair and refurbishment over replacement.</li>
+                            <li>Advanced material recovery facilities (MRF) for high-grade recycling.</li>
+                            <li>Incentivizing producers to take responsibility for end-of-life products.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 2: Water Conservation -->
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4 flex items-center text-primary-green">
+                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 01-9-9c0-1.037.21-2.031.603-2.932M12 21V12M12 12H3m9 0a9 9 0 008.337 4.965M12 12H3m9 0a9 9 0 008.337-4.965m-1.748-2.585A9.003 9.003 0 0012 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-1.898-.582-3.666-1.574-5.185"></path></svg>
+                            Rainwater & Greywater Recycling
+                        </h2>
+                        <p class="mb-4 text-gray-600">Minimizing fresh water consumption through smart leak detection, low-flow fixtures, and treating non-potable greywater for uses like irrigation and toilet flushing.</p>
+                        <img src="c:\Users\lab103\Documents\Downloads\10670.jpg" alt="Diagram of sustainable urban water cycle" class="w-full rounded-xl shadow-lg mb-6 border-4 border-primary-green/30">
+                        <ul class="list-disc ml-6 text-gray-600 space-y-2">
+                            <li>Green infrastructure (permeable pavements) to reduce stormwater runoff.</li>
+                            <li>Decentralized treatment plants for local water management.</li>
+                            <li>Water pricing structured to incentivize conservation.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="contact.html" class="inline-flex items-center space-x-2 bg-secondary-blue text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-secondary-blue/90 transition duration-300">
+                        <span>Next: Contact & Collaboration &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-dark-bg/95 border-t border-primary-green/20 py-8 text-center text-gray-400 text-sm">
+            <div class="max-w-7xl mx-auto px-4">
+                <p>&copy; 2024 EcoCity Hub. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    <script>
+        // JS for Falling Leaves Effect (Same as index.html)
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('leaf-container');
+            const numberOfLeaves = 75;
+            for (let i = 0; i < numberOfLeaves; i++) {
+                const leaf = document.createElement('div');
+                leaf.classList.add('leaf');
+                leaf.style.left = `${Math.random() * 100}vw`;
+                leaf.style.opacity = `${0.3 + Math.random() * 0.5}`;
+                leaf.style.setProperty('--delay', Math.random() * 15);
+                leaf.style.setProperty('--duration', 10 + Math.random() * 15);
+                const swayDuration = 5 + Math.random() * 10;
+                leaf.style.animation = `fall var(--duration)s linear infinite, sway ${swayDuration}s ease-in-out infinite alternate`;
+                leaf.style.animationDelay = `calc(var(--delay) * -1s)`;
+                container.appendChild(leaf);
+            }
+        });
+    </script>
+</body>
+</html>
+
+

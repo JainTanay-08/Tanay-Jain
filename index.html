@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCity Hub - Sustainable Futures</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#059669',
+                        'secondary-blue': '#3b82f6',
+                        'dark-bg': '#111827',
+                        'light-text': '#f9fafb',
+                        // SDG 11 Colors (Orange/Red)
+                        'sdg-main': '#fb923c', // Orange-500
+                        'sdg-dark': '#ea580c', // Orange-700
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* FALLING LEAVES EFFECT CSS (Live Background) */
+        .leaf-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -20; background-color: #1f2937;
+        }
+        @keyframes fall {
+            0% { top: -10%; opacity: 0.8; transform: translateX(0) rotate(0deg); }
+            100% { top: 110%; opacity: 0.2; transform: translateX(50px) rotate(270deg); }
+        }
+        @keyframes sway { 0% { transform: translateX(0); } 50% { transform: translateX(30px); } 100% { transform: translateX(0); } }
+        .leaf {
+            position: absolute; width: 25px; height: 25px; background-color: rgba(5, 150, 105, 0.7); border-radius: 0 50% 50% 50%; box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); opacity: 0;
+            animation: fall linear infinite, sway linear infinite; animation-delay: calc(var(--delay) * 1s); animation-duration: calc(var(--duration) * 1s); transform-origin: 50% 50%;
+        }
+        /* Content Overlay for Contrast */
+        .content-overlay {
+            position: fixed; top: 0; left: 0; height: 100%; width: 100%; background: rgba(17, 24, 39, 0.3); z-index: -10;
+        }
+
+        /* Custom scrollbar and transition for smooth section switching */
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #1f2937; } ::webkit-scrollbar-thumb { background: #059669; border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: #047857; }
+
+        .page-content {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page-content.active {
+            opacity: 1;
+        }
+        
+        /* SDG 11 specific styles */
+        .sdg-gradient-header {
+            background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+        }
+        .target-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .target-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+
+<body class="font-sans text-light-text antialiased min-h-screen">
+    
+    <!-- FALLING LEAVES CONTAINER & OVERLAY -->
+    <div class="leaf-container" id="leaf-container"></div>
+    <div class="content-overlay h-screen"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="relative z-10">
+
+        <!-- Navigation Bar -->
+        <header class="sticky top-0 bg-dark-bg/95 backdrop-blur-sm shadow-2xl z-50">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <a href="javascript:void(0)" onclick="showPage('home-page')" class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="text-2xl font-extrabold text-light-text tracking-tight">EcoCity Hub</span>
+                </a>
+                
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex space-x-6 text-lg">
+                    <a id="nav-home-page" href="javascript:void(0)" onclick="showPage('home-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300 font-bold">Home</a>
+                    <a id="nav-planning-page" href="javascript:void(0)" onclick="showPage('planning-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300">City Planning</a>
+                    <a id="nav-sdg11-page" href="javascript:void(0)" onclick="showPage('sdg11-page')" class="nav-link text-light-text hover:text-sdg-main transition duration-300">SDG 11</a>
+                    <a id="nav-energy-page" href="javascript:void(0)" onclick="showPage('energy-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300">Green Energy</a>
+                    <a id="nav-mobility-page" href="javascript:void(0)" onclick="showPage('mobility-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300">Mobility</a>
+                    <a id="nav-waste-page" href="javascript:void(0)" onclick="showPage('waste-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300">Waste & Water</a>
+                    <a id="nav-feedback-page" href="javascript:void(0)" onclick="showPage('feedback-page')" class="nav-link text-light-text hover:text-primary-green transition duration-300">Feedback</a>
+                </div>
+
+                <!-- Sign In/Up Button -->
+                <a href="auth.html" class="bg-secondary-blue hover:bg-secondary-blue/80 text-white font-semibold py-2 px-4 rounded-full shadow-lg transform transition duration-300 hidden md:block">
+                    Sign In
+                </a>
+                
+                <!-- Mobile Menu Button (Placeholder) -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-primary-green/20 transition duration-200">
+                    <svg class="w-6 h-6 text-light-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Dynamic Content Sections -->
+        <main class="min-h-[calc(100vh-64px)]">
+
+            <!-- 1. HOME PAGE -->
+            <section id="home-page" class="page-content active h-screen flex items-center justify-center -mt-[64px] pb-16 px-4">
+                <div class="text-center max-w-5xl bg-dark-bg/70 p-10 rounded-2xl shadow-[0_0_50px_rgba(5,150,105,0.4)] border border-primary-green/50 transform scale-100 transition duration-500">
+                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tighter text-light-text">
+                        Designing <span class="text-primary-green block sm:inline-block">Future-Ready Cities</span> for a Resilient World.
+                    </h1>
+                    <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
+                        Dive into the innovation driving urban sustainability, from intelligent infrastructure to regenerative resource use.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <a href="javascript:void(0)" onclick="showPage('planning-page')" class="bg-primary-green hover:bg-primary-green/80 text-dark-bg font-bold py-3 px-10 rounded-full shadow-xl transform transition duration-300 hover:scale-[1.05] ring-4 ring-primary-green/50">
+                            Explore Concepts
+                        </a>
+                        <a href="javascript:void(0)" onclick="showPage('sdg11-page')" class="bg-sdg-main/80 text-dark-bg hover:bg-sdg-main/90 border border-sdg-main font-semibold py-3 px-10 rounded-full shadow-lg transform transition duration-300 hover:scale-[1.05]">
+                            View SDG 11
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CITY PLANNING PAGE (UPDATED WITH SENSOR DIAGRAM) -->
+            <section id="planning-page" class="page-content hidden py-16 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto bg-white/95 text-dark-bg p-8 md:p-12 rounded-2xl shadow-3xl">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-primary-green mb-6 border-b-4 border-secondary-blue/50 pb-2">Integrated City Planning for Resilience</h1>
+                    <p class="text-xl text-gray-700 mb-10">Sustainable cities are built, not born. They require deliberate planning that integrates nature, technology, and social equity.</p>
+                    <div class="grid lg:grid-cols-2 gap-10">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4 flex items-center text-secondary-blue">Smart Sensor Networks and Data Hubs</h2>
+                            <p class="mb-4 text-gray-600">
+                                Smart infrastructure relies on pervasive sensor networks to collect real-time data for optimization. These sensors fall into several key categories:
+                                <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                                    <li>**Environmental:** Air quality (PM2.5, NO2), noise pollution, and weather stations.</li>
+                                    <li>**Utility:** Smart meters for water and electricity, monitoring consumption and detecting leaks.</li>
+                                    <li>**Mobility:** Traffic cameras, parking occupancy sensors, and public transit trackers.</li>
+                                    <li>**Waste:** Smart bins equipped with fill-level sensors to optimize collection routes.</li>
+                                </ul>
+                                All this data feeds into a centralized IoT platform, enabling predictive maintenance and dynamic resource allocation.
+                            </p>
+                            <!-- IMAGE TAG for the diagram -->
+                            [attachment_0](attachment)
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4 flex items-center text-primary-green">The Biophilic City Model</h2>
+                            <p class="mb-4 text-gray-600">Biophilic design integrates natural elements into the urban landscape. This includes green roofs, vertical gardens, and ensuring every resident is within a 10-minute walk of a park. This approach improves air quality, reduces the urban heat island effect, and boosts public health.</p>
+                            <img src="https://placehold.co/700x400/059669/ffffff?text=Image+of+Green+Roof+or+Park" alt="Biophilic design with green infrastructure" class="w-full rounded-xl shadow-lg mb-6 border-4 border-primary-green/30">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 3. SDG 11 PAGE: Sustainable Cities and Communities (NEW) -->
+            <section id="sdg11-page" class="page-content hidden py-16 px-4 sm:px-6 lg:px-8">
+                 <div class="max-w-7xl mx-auto bg-gray-800/95 text-light-text p-8 md:p-12 rounded-2xl shadow-3xl border-2 border-sdg-main/50">
+                    <header class="sdg-gradient-header p-8 rounded-t-xl text-center mb-10">
+                        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tighter text-white drop-shadow-lg">
+                            SDG 11: Sustainable Cities & Communities
+                        </h1>
+                        <p class="mt-2 text-xl font-light text-white/90 max-w-3xl mx-auto">
+                            Make cities and human settlements inclusive, safe, resilient, and sustainable.
+                        </p>
+                    </header>
+
+                    <!-- Introduction and Challenge Section -->
+                    <div class="pb-10 border-b border-gray-700">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h2 class="text-3xl sm:text-4xl font-extrabold text-sdg-main mb-4">
+                                    The Urban Challenge
+                                </h2>
+                                <p class="text-gray-300 text-lg leading-relaxed">
+                                    Over half of the world's population now lives in urban areas, a figure expected to rise to two-thirds by 2050. This rapid urbanization presents enormous challenges: slums, inadequate infrastructure, rising pollution, and lack of affordable housing.
+                                </p>
+                                <p class="mt-4 text-gray-300 text-lg leading-relaxed font-semibold">
+                                    SDG 11 aims to transform how we build and manage urban spaces, ensuring that cities are not only functional but also equitable, resilient to climate change, and environmentally friendly.
+                                </p>
+                            </div>
+                            <div>
+                                 <!-- Placeholder for conceptual diagram -->
+                                 
+                                <p class="mt-4 text-sm text-gray-500 text-center">
+                                    Illustration of the pressure rapid urbanization places on infrastructure and natural resources.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Targets Section (Grid Layout) -->
+                    <div class="pt-10">
+                        <h2 class="text-4xl font-extrabold text-sdg-main text-center mb-12">
+                            Key Targets for 2030
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                            <!-- Target 11.1: Housing and Slums -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.1</span>
+                                <h3 class="text-2xl font-semibold mb-3">Affordable Housing & Slum Upgrading</h3>
+                                <p class="text-gray-400">Ensure access for all to adequate, safe, and affordable housing and basic services, and upgrade slums.</p>
+                            </div>
+
+                            <!-- Target 11.2: Transport Systems -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.2</span>
+                                <h3 class="text-2xl font-semibold mb-3">Sustainable Transport</h3>
+                                <p class="text-gray-400">Provide access to safe, affordable, accessible, and sustainable transport systems for all, improving road safety.</p>
+                            </div>
+
+                            <!-- Target 11.3: Participatory Planning -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.3</span>
+                                <h3 class="text-2xl font-semibold mb-3">Inclusive Urbanization</h3>
+                                <p class="text-gray-400">Enhance inclusive and sustainable urbanization and capacity for participatory, integrated human settlement planning.</p>
+                            </div>
+
+                            <!-- Target 11.4: Cultural Heritage -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.4</span>
+                                <h3 class="text-2xl font-semibold mb-3">Protecting Heritage</h3>
+                                <p class="text-gray-400">Strengthen efforts to protect and safeguard the world’s cultural and natural heritage.</p>
+                            </div>
+
+                            <!-- Target 11.5: Disaster Resilience -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.5</span>
+                                <h3 class="text-2xl font-semibold mb-3">Disaster Reduction</h3>
+                                <p class="text-gray-400">Significantly reduce the number of deaths and people affected by disasters, focusing on the poor and those in vulnerable situations.</p>
+                            </div>
+
+                            <!-- Target 11.6: Environmental Impact -->
+                            <div class="target-card bg-gray-900 p-6 rounded-xl border-t-4 border-sdg-main shadow-lg">
+                                <span class="text-sdg-main text-xl font-bold block mb-2">Target 11.6</span>
+                                <h3 class="text-2xl font-semibold mb-3">Reducing Pollution</h3>
+                                <p class="text-gray-400">Reduce the adverse per capita environmental impact of cities, including by paying special attention to air quality and waste management.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. GREEN ENERGY PAGE -->
+            <section id="energy-page" class="page-content hidden py-16 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto bg-white/95 text-dark-bg p-8 md:p-12 rounded-2xl shadow-3xl">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-primary-green mb-6 border-b-4 border-secondary-blue/50 pb-2">Harnessing 100% Renewable Energy</h1>
+                    <p class="text-xl text-gray-700 mb-10">The energy transition is at the heart of the sustainable city model, relying on diverse and smart renewable sources.</p>
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <div class="bg-gray-100 p-6 rounded-xl shadow-lg border-l-4 border-yellow-500">
+                            <img src="https://placehold.co/500x300/f59e0b/ffffff?text=Rooftop+Solar+Panels" alt="Rooftop Solar Panels" class="w-full h-auto rounded-lg mb-4">
+                            <h3 class="text-2xl font-bold text-yellow-600 mb-3">Solar Photovoltaics (PV)</h3>
+                            <p class="text-gray-600">The most accessible urban renewable. Integration into building facades, rooftops, and parking lot canopies maximizes decentralized power generation.</p>
+                        </div>
+                        <div class="bg-gray-100 p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
+                            <img src="https://placehold.co/500x300/3b82f6/ffffff?text=Urban+Vertical+Axis+Turbine" alt="Urban Wind Turbine" class="w-full h-auto rounded-lg mb-4">
+                            <h3 class="text-2xl font-bold text-blue-600 mb-3">Urban Wind Energy</h3>
+                            <p class="text-gray-600">Small-scale, vertical-axis wind turbines are designed for urban environments, utilizing localized air currents to supplement solar power generation.</p>
+                     
